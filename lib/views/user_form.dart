@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:prog_IV/models/user.dart';
-import 'package:prog_IV/provider/provider.dart';
+import 'package:prog_IV/provider/users_provider.dart';
 import 'package:provider/provider.dart';
 
 class UserForm extends StatelessWidget {
   final _form = GlobalKey<FormState>();
   final Map<String, String> _formData = {};
 
-  void _fillForm (User user) {
-    if (user != null){
+  void _fillForm(User user) {
+    if (user != null) {
       _formData['id'] = user.id;
       _formData['name'] = user.name;
       _formData['email'] = user.email;
@@ -24,23 +24,6 @@ class UserForm extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Cadastrar Usuário'),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.save),
-            onPressed: () {
-              _form.currentState.save();
-              Provider.of<UsersProvider>(context, listen: false).put(
-                User(
-                  id: _formData['id'],
-                  name: _formData['name'],
-                  email: _formData['email'],
-                  imgUrl: _formData['imgUrl'],
-                ),
-              );
-              Navigator.of(context).pop();
-            },
-          )
-        ],
       ),
       body: Padding(
         padding: EdgeInsets.all(15),
@@ -51,24 +34,81 @@ class UserForm extends StatelessWidget {
               TextFormField(
                 decoration: InputDecoration(
                   labelText: "Nome",
+                  hintText: "Nome",
+                  border: OutlineInputBorder(),
+                  prefixIcon: Icon(Icons.person),
                 ),
                 initialValue: _formData['name'],
                 onSaved: (value) => _formData['name'] = value,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "O campo nome é obrigatório!";
+                  }
+                  return null;
+                },
               ),
+              SizedBox(height: 10),
               TextFormField(
                 decoration: InputDecoration(
-                  labelText: "Email",
+                  labelText: "E-mail",
+                  hintText: "E-mail",
+                  border: OutlineInputBorder(),
+                  prefixIcon: Icon(Icons.email),
                 ),
                 initialValue: _formData['email'],
                 onSaved: (value) => _formData['email'] = value,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "O campo e-mail é obrigatório!";
+                  }
+                  return null;
+                },
               ),
+              SizedBox(height: 10),
               TextFormField(
                 decoration: InputDecoration(
                   labelText: "URL da imagem",
+                  hintText: "URL da imagem",
+                  border: OutlineInputBorder(),
+                  prefixIcon: Icon(Icons.link),
                 ),
                 initialValue: _formData['imgUrl'],
                 onSaved: (value) => _formData['imgUrl'] = value,
-              )
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "O URL da imagem nome é obrigatório!";
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 20),
+              ButtonTheme(
+                minWidth: double.infinity,
+                child: MaterialButton(
+                  onPressed: () {
+                    if (_form.currentState.validate()) {
+                      _form.currentState.save();
+                      Provider.of<UsersProvider>(context, listen: false).saveUser(
+                        User(
+                          id: _formData['id'],
+                          name: _formData['name'],
+                          email: _formData['email'],
+                          imgUrl: _formData['imgUrl'],
+                        ),
+                      );
+                      Navigator.of(context).pop();
+                    }
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.person_add_outlined),
+                      Text('Salvar'),
+                    ],
+                  ),
+                  color: Colors.purple,
+                ),
+              ),
             ],
           ),
         ),

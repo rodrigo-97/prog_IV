@@ -1,11 +1,14 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:prog_IV/provider/provider.dart';
+import 'package:prog_IV/provider/users_provider.dart';
 import 'package:prog_IV/routes/app_routes.dart';
 import 'package:prog_IV/views/user_form.dart';
 import 'package:prog_IV/views/user_list.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
@@ -13,7 +16,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (ctx) => UsersProvider(),
+      create: (context) => UsersProvider(),
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
@@ -24,7 +27,7 @@ class MyApp extends StatelessWidget {
         routes: {
           AppRoutes.HOME: (_) => UserList(),
           AppRoutes.USER_FORM: (_) => UserForm()
-        }
+        },
       ),
     );
   }

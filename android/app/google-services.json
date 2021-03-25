@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "863189482337",
+    "project_id": "progiv-a3e6c",
+    "storage_bucket": "progiv-a3e6c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:863189482337:android:09eccde06f745c4cffe320",
+        "android_client_info": {
+          "package_name": "com.example.prog_IV"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "863189482337-3sac2fg61kep0elgppd375hmn7n53i61.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD8xNeu6k294qU74tDm6HVtM3LgAGpGdeo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "863189482337-3sac2fg61kep0elgppd375hmn7n53i61.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

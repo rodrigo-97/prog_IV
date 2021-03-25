@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:prog_IV/models/user.dart';
-import 'package:prog_IV/provider/provider.dart';
+import 'package:prog_IV/provider/users_provider.dart';
 import 'package:prog_IV/routes/app_routes.dart';
 import 'package:provider/provider.dart';
 
@@ -10,11 +10,14 @@ class UserTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final avatar = user.imgUrl == null || user.imgUrl.isEmpty
+    final avatar = user.imgUrl == null || !Uri.parse(user.imgUrl).isAbsolute
         ? CircleAvatar(
-            child: Icon(Icons.person),
+            child: Icon(Icons.person, color: Colors.white,),
+            backgroundColor: Colors.grey,
           )
-        : CircleAvatar(backgroundImage: NetworkImage(user.imgUrl));
+        : CircleAvatar(
+            backgroundImage: NetworkImage(user.imgUrl),
+          );
 
     return ListTile(
       leading: avatar,
@@ -44,9 +47,24 @@ class UserTile extends StatelessWidget {
                   context: context,
                   builder: (ctx) => AlertDialog(
                     title: Text("Você realmente deseja remover este cadastro?"),
+                    actions: <Widget>[
+                      FlatButton(
+                        onPressed: () {
+                          Provider.of<UsersProvider>(context, listen: false)
+                              .removeUser(user.id);
+                          Navigator.of(context).pop(true);
+                        },
+                        child: Text("Sim"),
+                      ),
+                      FlatButton(
+                        onPressed: () {
+                          Navigator.of(context).pop(false);
+                        },
+                        child: Text("Não"),
+                      )
+                    ],
                   ),
                 );
-                Provider.of<UsersProvider>(context, listen: false).remove(user);
               },
             ),
           ],
