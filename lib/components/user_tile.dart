@@ -12,7 +12,10 @@ class UserTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final avatar = user.imgUrl == null || !Uri.parse(user.imgUrl).isAbsolute
         ? CircleAvatar(
-            child: Icon(Icons.person, color: Colors.white,),
+            child: Icon(
+              Icons.person,
+              color: Colors.white,
+            ),
             backgroundColor: Colors.grey,
           )
         : CircleAvatar(
